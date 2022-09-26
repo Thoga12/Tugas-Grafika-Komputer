@@ -1,25 +1,68 @@
+#include <windows.h>
+#ifdef _APPLE_
+#include <GLUT/glut.h>
+#else
 #include <GL/glut.h>
-#include <math.h>
-void display(void)
-{
-glClearColor (0.0f, 0.0f, 0.0f, 0.0f);
-glClear (GL_COLOR_BUFFER_BIT);
+#endif
 
-glPushMatrix ();
-glClearColor(1,1,1,0);
-glColor3f(0.0,0.0,1.0); //
-glBegin(GL_LINES);
-glVertex3f(0,0,0.0);
-glVertex3f(0.10,10.0,13.13);
-glEnd ();
-glFlush();
+#include <stdlib.h>
+
+void trapesium()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    glColor3f(1.0, 0.5, 0.0);
+
+    glBegin(GL_POLYGON);
+
+    glVertex2f(0.2, 0.3);   // Titik 1
+    glVertex2f(0.7, 0.3);   // Titik 2
+    glVertex2f(0.8, 0.7);   // Titik 3
+    glVertex2f(0.3, 0.7);   // Titik 4
+
+    glEnd();
+
+    glColor3f(1.0, 0.0, 0.0);
+    glLineWidth(3.0);
+
+    glBegin(GL_LINES);
+
+    glColor3f(0.5, 1.0, 0.0);
+    glVertex2f(0.2, 0.3);   // Garis 1
+    glVertex2f(0.7, 0.3);
+
+    glColor3f(1.0, 1.0, 0.0);
+    glVertex2f(0.7, 0.3);   // Garis 2
+    glVertex2f(0.8, 0.7);
+
+    glColor3f(1.0, 0.0, 0.0);
+    glVertex2f(0.8, 0.7);   // Garis 3
+    glVertex2f(0.3, 0.7);
+
+    glColor3f(0.0, 1.0, 1.0);
+    glVertex2f(0.3, 0.7);   // Garis 4
+    glVertex2f(0.2, 0.3);
+
+    glEnd();
+
+    glFlush();
 }
 
-int main(int argc, char **argv)
+void Initialize()
 {
-glutInit(&argc, argv);
-glutCreateWindow("GARIS");
-glutDisplayFunc(display);
-glutMainLoop();
-return 0;
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
+}
+
+int main(int iArgc, char** cppArgv){
+    glutInit(&iArgc, cppArgv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(250, 250);
+    glutInitWindowPosition(200, 200);
+    glutCreateWindow("Poligon");
+    Initialize();
+    glutDisplayFunc(trapesium);
+    glutMainLoop();
+    return 0;
 }
